@@ -71,7 +71,7 @@ export function toSarif(r: ScanReport): object {
     version: "2.1.0",
     runs: [
       {
-        tool: { driver: { name: "Kompile Scan", version: r.scannerVersion, informationUri: "https://github.com/kompile/kompile-scan", rules } },
+        tool: { driver: { name: "Kompile Scan", version: r.scannerVersion, informationUri: "https://github.com/raheefJ/kompile-scan", rules } },
         results: problems.map((f) => ({
           ruleId: f.id,
           level: SARIF_LEVEL[f.severity],

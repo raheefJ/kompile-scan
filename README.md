@@ -49,7 +49,7 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: OWNER/kompile-scan@v0
+      - uses: raheefJ/kompile-scan@v0
         with:
           hostname: ${{ vars.SITE_HOSTNAME }}
           fail-on: high
