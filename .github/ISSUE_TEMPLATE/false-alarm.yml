@@ -1,0 +1,22 @@
+name: False alarm or missed problem
+description: Kompile Scan flagged something that is fine, or missed something real
+labels: [accuracy]
+body:
+  - type: input
+    id: check
+    attributes:
+      label: Check id
+      placeholder: KS-17
+    validations: { required: true }
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What happened
+      options: [False alarm, Missed problem]
+    validations: { required: true }
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: The evidence line from the report and what is actually there. Never paste real keys or private URLs.
+    validations: { required: true }

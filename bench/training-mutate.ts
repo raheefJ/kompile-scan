@@ -150,6 +150,8 @@ async function main() {
   writeFileSync(path.join(out, `examples-${seed}.jsonl`), jsonl(examples.map((e) => Object.fromEntries(cols.map((c, i) => [c, e[i]])))));
   writeFileSync(path.join(out, `features-${seed}.jsonl`), jsonl(features.map((f) => ({ source: f[0], scanner_version: f[1], subject: f[2], grade: f[3], features: JSON.parse(String(f[4])) }))));
   console.log(`wrote bench/out/examples-${seed}.jsonl and features-${seed}.jsonl`);
+  // Any miss or false alarm fails CI.
+  if (fn || fp) process.exit(1);
 }
 
 if (process.argv[1]?.replace(/\\/g, "/").endsWith("bench/training-mutate.ts")) {

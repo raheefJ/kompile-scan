@@ -1,0 +1,22 @@
+name: Propose a new check
+description: A problem Kompile Scan should find from the outside
+labels: [new-check]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What goes wrong
+      description: The mistake, who makes it (which AI builder or framework), and why it matters. Link incidents or advisories.
+    validations: { required: true }
+  - type: textarea
+    id: detect
+    attributes:
+      label: How to see it from outside
+      description: The exact read-only request (GET or HEAD) and the signal in the response.
+    validations: { required: true }
+  - type: textarea
+    id: trap
+    attributes:
+      label: What must NOT be flagged
+      description: A look-alike that is fine, so the check stays quiet on it.
+    validations: { required: true }

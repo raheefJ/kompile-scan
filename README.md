@@ -36,21 +36,48 @@ It is built for the mistakes that Lovable, Bolt, v0, Cursor and Replit apps actu
 
 ## Use it in CI
 
-The exit code is `1` when a problem at or above `--fail-on` is found (the default is `medium`), so a deploy that leaks a key can fail the build.
+The exit code is `1` when a problem at or above `--fail-on` is found (the default is `medium`), so a deploy that leaks a key can fail the build. The Action also puts the report in the job summary and the findings in your repository's **Security** tab.
 
 ```yaml
 # .github/workflows/kompile-scan.yml
 name: Kompile Scan
 on: [deployment_status]
+permissions:
+  security-events: write
 jobs:
   scan:
     if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v4
-        with: { node-version: 22 }
-      - run: npx kompile-scan ${{ vars.SITE_HOSTNAME }} --i-own-this --fail-on high
+      - uses: OWNER/kompile-scan@v0
+        with:
+          hostname: ${{ vars.SITE_HOSTNAME }}
+          fail-on: high
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: kompile-scan.sarif
 ```
+
+## Let your AI agent fix it (MCP)
+
+Kompile Scan ships an MCP server. Your agent (Claude, Cursor, Windsurf and others) can scan your live site, apply the fixes in your code, and scan again until you get an A.
+
+```json
+{ "mcpServers": { "kompile-scan": { "command": "npx", "args": ["-y", "-p", "kompile-scan", "kompile-scan-mcp"] } } }
+```
+
+The `scan_site` tool needs `i_own_this: true`, so the agent has to confirm ownership with you first. It never logs in or changes anything on the site.
+
+## Report formats
+
+| `--format` | Use it for |
+| --- | --- |
+| `text` | your terminal (the default) |
+| `json` | scripts and dashboards |
+| `markdown` | pull-request comments and job summaries |
+| `sarif` | GitHub code scanning (the Security tab) |
+| `prompt` | pasting into Cursor, Claude, Lovable or Bolt so it fixes everything at once |
 
 ## Use it as a library
 

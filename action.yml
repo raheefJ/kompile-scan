@@ -1,0 +1,59 @@
+name: Kompile Scan
+description: Read-only security checks for a site you own. Fails the job on leaked keys, exposed files, open panels and other problems.
+author: Kompile contributors
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  hostname:
+    description: The site to check, for example yourapp.com. Only use sites you own or have permission to test.
+    required: true
+  path:
+    description: Where the app starts if it is not at the root, for example /app.
+    required: false
+    default: ""
+  fail-on:
+    description: Fail the job when a problem at this level or worse is found (high, medium or low).
+    required: false
+    default: medium
+  sarif-file:
+    description: Where to write a SARIF report for github/codeql-action/upload-sarif. Leave empty to skip.
+    required: false
+    default: kompile-scan.sarif
+
+outputs:
+  grade:
+    description: The letter grade (A to F).
+    value: ${{ steps.scan.outputs.grade }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - name: Build Kompile Scan
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm ci --no-audit --no-fund && npm run build
+    - name: Scan
+      id: scan
+      shell: bash
+      env:
+        KS_HOST: ${{ inputs.hostname }}
+        KS_PATH: ${{ inputs.path }}
+        KS_FAIL_ON: ${{ inputs.fail-on }}
+        KS_SARIF: ${{ inputs.sarif-file }}
+        KS_CLI: ${{ github.action_path }}/dist/cli.js
+      run: |
+        set +e
+        args=("$KS_HOST" --i-own-this --fail-on "$KS_FAIL_ON" --json-file kompile-report.json --markdown-file "$GITHUB_STEP_SUMMARY")
+        if [ -n "$KS_PATH" ]; then args+=(--path "$KS_PATH"); fi
+        if [ -n "$KS_SARIF" ]; then args+=(--sarif-file "$KS_SARIF"); fi
+        node "$KS_CLI" "${args[@]}"
+        code=$?
+        if [ -f kompile-report.json ]; then
+          node -e 'console.log("grade=" + require(process.argv[1]).grade)' "$PWD/kompile-report.json" >> "$GITHUB_OUTPUT"
+        fi
+        exit $code
