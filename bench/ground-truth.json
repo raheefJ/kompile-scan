@@ -1,0 +1,254 @@
+{
+  "_note": "Problems visible from outside without logging in, confirmed by hand on 10/12/2026 (see SCAN-BENCHMARK.md). Check ids are Kompile's categories. Attack-only issues (SQL injection, default passwords) are out of scope and not listed.",
+  "targets": {
+    "owasp-juice-shop-20.3.0": {
+      "problems": [
+        "KS-05",
+        "KS-06",
+        "KS-09",
+        "KS-12",
+        "KS-16",
+        "KS-21",
+        "KS-22"
+      ],
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-juiceshop.json",
+          "scannerVersion": "2026.10.12-after-juiceshop-rules"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-juiceshop.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-juiceshop-ks29.json",
+          "scannerVersion": "2026.10.12-ks29"
+        }
+      ]
+    },
+    "owasp-webgoat-2026.4": {
+      "problems": [
+        "KS-05",
+        "KS-06",
+        "KS-07",
+        "KS-08",
+        "KS-09",
+        "KS-12",
+        "KS-21"
+      ],
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-webgoat.json",
+          "scannerVersion": "blind-frozen-b6657e50"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-webgoat-path.json",
+          "scannerVersion": "2026.10.12-app-path"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-webgoat.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-webgoat-ks29.json",
+          "scannerVersion": "2026.10.12-ks29"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-webgoat-path-ks29.json",
+          "scannerVersion": "2026.10.12-ks29-app-path"
+        }
+      ]
+    },
+    "dvwa-068d974": {
+      "problems": [
+        "KS-05",
+        "KS-06",
+        "KS-07",
+        "KS-08",
+        "KS-09",
+        "KS-10",
+        "KS-11",
+        "KS-12"
+      ],
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-dvwa.json",
+          "scannerVersion": "blind-frozen-f2d271d7"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-dvwa.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-dvwa-ks29.json",
+          "scannerVersion": "2026.10.12-ks29"
+        }
+      ]
+    },
+    "kompile-live-site": {
+      "problems": [],
+      "note": "Kompile own production site, hand-checked headers, files and panels on 10/12/2026; security.txt absent is informational only.",
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-live-ks29.json",
+          "scannerVersion": "2026.10.12-ks29"
+        }
+      ]
+    },
+    "ai-lab-vite-chat": {
+      "problems": [
+        "KS-05",
+        "KS-06",
+        "KS-07",
+        "KS-08",
+        "KS-09",
+        "KS-17",
+        "KS-18"
+      ],
+      "note": "Vite 6 + React app calling OpenAI from the browser with VITE_ key; build.sourcemap true; served by express.static.",
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-vite-chat.json",
+          "scannerVersion": "2026.10.13-signals"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-vite-chat-fixed.json",
+          "scannerVersion": "2026.10.13-ai-lab-fixes"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-ai-lab-vite-chat.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        }
+      ]
+    },
+    "ai-lab-express-api": {
+      "problems": [
+        "KS-05",
+        "KS-06",
+        "KS-07",
+        "KS-08",
+        "KS-09",
+        "KS-10",
+        "KS-13",
+        "KS-21",
+        "KS-22"
+      ],
+      "note": "Express 4 API: cors origin:true + credentials, swagger-ui-express at /api-docs, default dev error handler on /api/*, session cookie without flags.",
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-express-api.json",
+          "scannerVersion": "2026.10.13-signals"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-express-api-fixed.json",
+          "scannerVersion": "2026.10.13-ai-lab-fixes"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-ai-lab-express-api.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        }
+      ]
+    },
+    "ai-lab-next-dashboard": {
+      "problems": [
+        "KS-05",
+        "KS-06",
+        "KS-07",
+        "KS-08",
+        "KS-09",
+        "KS-17",
+        "KS-18",
+        "KS-26"
+      ],
+      "note": "Next.js 15.5.7 (npm marks it vulnerable: security update 2025-12-11), service_role JWT behind NEXT_PUBLIC_, productionBrowserSourceMaps.",
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-next-dashboard.json",
+          "scannerVersion": "2026.10.13-signals"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-next-dashboard-fixed.json",
+          "scannerVersion": "2026.10.13-ai-lab-fixes"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-ai-lab-next-dashboard.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        }
+      ]
+    },
+    "ai-lab-static-landing": {
+      "problems": [
+        "KS-05",
+        "KS-06",
+        "KS-07",
+        "KS-08",
+        "KS-09",
+        "KS-12",
+        "KS-20",
+        "KS-24",
+        "KS-25"
+      ],
+      "note": "Static page: public .env served (dotfiles allowed), polyfill.io and jQuery 3.4.1 from CDNs without SRI.",
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-static-landing.json",
+          "scannerVersion": "2026.10.13-signals"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-static-landing-fixed.json",
+          "scannerVersion": "2026.10.13-ai-lab-fixes"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-ai-lab-static-landing.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        }
+      ]
+    },
+    "ai-lab-hardened": {
+      "problems": [],
+      "note": "Control: security headers set, x-powered-by off, secure cookie, plain error pages.",
+      "runs": [
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-hardened.json",
+          "scannerVersion": "2026.10.13-signals"
+        },
+        {
+          "tool": "kompile",
+          "file": "kompile-ai-lab-hardened-fixed.json",
+          "scannerVersion": "2026.10.13-ai-lab-fixes"
+        },
+        {
+          "tool": "nuclei",
+          "file": "nuclei-ai-lab-hardened.jsonl",
+          "scannerVersion": "nuclei-3.11.1"
+        }
+      ]
+    }
+  },
+  "_note_ai_lab": "ai-lab-* targets: apps written on 10/13/2026 the way AI app builders typically produce them; expected problems written down before scanning."
+}

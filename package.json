@@ -1,0 +1,29 @@
+{
+  "name": "kompile-scan",
+  "version": "0.1.0",
+  "description": "Read-only, outside-in security checks for apps built with AI tools. Finds leaked keys, exposed files, open panels and weak headers, with a plain-English fix for each.",
+  "license": "AGPL-3.0-or-later",
+  "keywords": ["security", "scanner", "vibe-coding", "ai-apps", "nextjs", "supabase", "headers", "secrets", "dast"],
+  "bin": { "kompile-scan": "dist/cli.js" },
+  "main": "dist/checks.js",
+  "types": "dist/checks.d.ts",
+  "files": ["dist", "LICENSE", "README.md"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.bench.json",
+    "test": "vitest run",
+    "bench": "tsx bench/bench-scan.ts",
+    "bench:mutate": "tsx bench/training-mutate.ts",
+    "bench:serve": "tsx bench/bench-serve.ts",
+    "bench:compare": "tsx bench/bench-compare.ts",
+    "bench:local": "tsx bench/bench-local.ts",
+    "scan": "tsx src/cli.ts"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.21",
+    "tsx": "4.19.4",
+    "typescript": "5.8.3",
+    "vitest": "3.1.4"
+  }
+}
