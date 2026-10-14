@@ -36,7 +36,8 @@
     "bench:serve": "tsx bench/bench-serve.ts",
     "bench:compare": "tsx bench/bench-compare.ts",
     "bench:local": "tsx bench/bench-local.ts",
-    "scan": "tsx src/cli.ts"
+    "scan": "tsx src/cli.ts",
+    "prepublishOnly": "npm run build && npm test"
   },
   "devDependencies": {
     "@types/node": "22.15.21",
